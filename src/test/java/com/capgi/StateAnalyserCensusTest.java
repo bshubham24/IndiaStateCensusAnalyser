@@ -11,9 +11,9 @@ public class StateAnalyserCensusTest {
 			+ "\\IndiaStateCensusData.csv";
 
 	@Test
-	public void testSomeLibraryMethod() {
+	public void whenNumberOfRecordMatchesShouldPassTest() {
 		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
-		int entries = stateCensusAnalyser.loadCsvData(STATE_CENSUS_DATA_FILE);
-		Assert.assertEquals(29, entries);
+		int totalEntriesInCsvFile = stateCensusAnalyser.loadCsvData(STATE_CENSUS_DATA_FILE);
+		Assert.assertEquals(29, totalEntriesInCsvFile);
 	}
 }
