@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.capgi.CustomCensusAnalyserException.ExceptionType;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class StateCensusAnalyser {
 
-	public int loadCsvData(String csvFile) {
+	public int loadCsvData(String csvFile) throws CustomCensusAnalyserException, IOException {
+		if (!csvFile.contains(".csv")) {
+			throw new CustomCensusAnalyserException("Incorrect csv file", ExceptionType.IncorrectCsvFile);
+		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
 			CsvToBean<CSVStateCensus> csvToBean = new CsvToBeanBuilder<CSVStateCensus>(reader)
 					.withType(CSVStateCensus.class).withIgnoreLeadingWhiteSpace(true).build();
@@ -25,7 +29,7 @@ public class StateCensusAnalyser {
 			}
 			return censusList.size();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return 0;
 		}
 	}
