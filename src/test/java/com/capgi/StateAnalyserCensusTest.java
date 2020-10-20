@@ -3,6 +3,7 @@
  */
 package com.capgi;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class StateAnalyserCensusTest {
@@ -11,5 +12,8 @@ public class StateAnalyserCensusTest {
 
 	@Test
 	public void testSomeLibraryMethod() {
+		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+		int entries = stateCensusAnalyser.loadCsvData(STATE_CENSUS_DATA_FILE);
+		Assert.assertEquals(29, entries);
 	}
 }
