@@ -7,10 +7,13 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 import com.capgi.CustomCensusAnalyserException.ExceptionType;
+import com.capgi.csvbuilder.CsvBuilderFactory;
+import com.capgi.csvbuilder.CsvException;
+import com.capgi.csvbuilder.ICSVBuilder;
 
 public class StateCensusAnalyser {
 
-	public int loadCsvData(String csvFile) throws CustomCensusAnalyserException, IOException {
+	public int loadCsvData(String csvFile) throws CustomCensusAnalyserException, IOException, CsvException {
 		if (!csvFile.contains(".csv")) {
 			throw new CustomCensusAnalyserException("Incorrect csv file", ExceptionType.IncorrectCsvFile);
 		}
@@ -24,11 +27,12 @@ public class StateCensusAnalyser {
 			return 0;
 		} catch (RuntimeException e) {
 			throw new CustomCensusAnalyserException("File data not correct", ExceptionType.IncorrectData);
-
+		} catch (CsvException e) {
+			throw new CsvException("Unable to parse", CsvException.ExceptionType.UNABLE_TO_PARSE);
 		}
 	}
 
-	public int loadStateCode(String csvFile) throws CustomCensusAnalyserException, IOException {
+	public int loadStateCode(String csvFile) throws CustomCensusAnalyserException, IOException, CsvException {
 		if (!csvFile.contains(".csv")) {
 			throw new CustomCensusAnalyserException("Incorrect csv file", ExceptionType.IncorrectCsvFile);
 		}
@@ -44,7 +48,8 @@ public class StateCensusAnalyser {
 			throw new CustomCensusAnalyserException("File is empty", ExceptionType.NO_DATA);
 		} catch (RuntimeException e) {
 			throw new CustomCensusAnalyserException("File data not correct", ExceptionType.IncorrectData);
-
+		} catch (CsvException e) {
+			throw new CsvException("Unable to parse", CsvException.ExceptionType.UNABLE_TO_PARSE);
 		}
 	}
 

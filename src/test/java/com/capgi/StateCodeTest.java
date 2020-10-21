@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.capgi.csvbuilder.CsvException;
+
 public class StateCodeTest {
 	public static final String STATE_CODE_FILE = "F:\\Capgemini_training1\\java_eclipse\\IndiaStateCensusAnalyser\\src\\main\\java\\com\\capgi\\IndiaStateCode.csv";
 	public static final String WRONG_STATE_CODE_FILE = "F:\\Capgemini_training1\\java_eclipse\\IndiaStateCensusAnalyser"
@@ -17,14 +19,14 @@ public class StateCodeTest {
 
 	@Test
 	public void whenNumberOfRecordMatchesForStateCodeFileShouldPassTest()
-			throws CustomCensusAnalyserException, IOException {
+			throws CustomCensusAnalyserException, IOException, CsvException {
 		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
 		int totalEntriesInCsvFile = stateCensusAnalyser.loadStateCode(STATE_CODE_FILE);
 		Assert.assertEquals(37, totalEntriesInCsvFile);
 	}
 
 	@Test
-	public void whenFileIsNotInCsvFormatShouldThrowCustomException() throws IOException {
+	public void whenFileIsNotInCsvFormatShouldThrowCustomException() throws IOException, CsvException {
 		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
 		try {
 			int totalEntriesInCsvFile = stateCensusAnalyser.loadStateCode(WRONG_STATE_CODE_FILE);
@@ -34,7 +36,7 @@ public class StateCodeTest {
 	}
 
 	@Test
-	public void whenFileDataIsImproperShouldThrowCustomException() throws IOException {
+	public void whenFileDataIsImproperShouldThrowCustomException() throws IOException, CsvException {
 		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
 		try {
 			int totalEntriesInCsvFile = stateCensusAnalyser.loadStateCode(WRONG_DATA_IN_STATE_CODE_FILE);
@@ -44,7 +46,7 @@ public class StateCodeTest {
 	}
 
 	@Test
-	public void whenFileHeaderIsImproperShouldThrowCustomException() throws IOException {
+	public void whenFileHeaderIsImproperShouldThrowCustomException() throws IOException, CsvException {
 		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
 		try {
 			int totalEntriesInCsvFile = stateCensusAnalyser.loadStateCode(WRONG_HEADER_IN_STATE_CODE_FILE);
@@ -54,7 +56,7 @@ public class StateCodeTest {
 	}
 
 	@Test
-	public void whenFileTypeIsImproperShouldThrowCustomException() throws IOException {
+	public void whenFileTypeIsImproperShouldThrowCustomException() throws IOException, CsvException {
 		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
 		try {
 			int totalEntriesInCsvFile = stateCensusAnalyser.loadStateCode(WRONG_STATE_CODE_FILE_TYPE);

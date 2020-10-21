@@ -1,4 +1,4 @@
-package com.capgi;
+package com.capgi.csvbuilder;
 
 public class CsvBuilderFactory<E> {
 	public static ICSVBuilder createCSVBuilder() {
