@@ -4,13 +4,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import com.capgi.CustomCensusAnalyserException.ExceptionType;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 
 public class StateCensusAnalyser {
 
@@ -19,15 +15,9 @@ public class StateCensusAnalyser {
 			throw new CustomCensusAnalyserException("Incorrect csv file", ExceptionType.IncorrectCsvFile);
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
-			CsvToBean<CSVStateCensus> csvToBean = new CsvToBeanBuilder<CSVStateCensus>(reader)
-					.withType(CSVStateCensus.class).withIgnoreLeadingWhiteSpace(true).build();
-
-			List<CSVStateCensus> censusList = new ArrayList<CSVStateCensus>();
-			Iterator<CSVStateCensus> iterator = csvToBean.iterator();
-			while (iterator.hasNext()) {
-				censusList.add(iterator.next());
-			}
-			return censusList.size();
+			OpenCsvBuilder<CSVStateCensus> openCsvBuilder = new OpenCsvBuilder<>();
+			Iterator<CSVStateCensus> iterator = openCsvBuilder.getCsvBeanIterator(reader, CSVStateCensus.class);
+			return getNoOfEntries(iterator);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			return 0;
@@ -42,15 +32,9 @@ public class StateCensusAnalyser {
 			throw new CustomCensusAnalyserException("Incorrect csv file", ExceptionType.IncorrectCsvFile);
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
-			CsvToBean<CSVStates> csvToBean = new CsvToBeanBuilder<CSVStates>(reader).withType(CSVStates.class)
-					.withIgnoreLeadingWhiteSpace(true).build();
-
-			List<CSVStates> stateCodeList = new ArrayList<CSVStates>();
-			Iterator<CSVStates> iterator = csvToBean.iterator();
-			while (iterator.hasNext()) {
-				stateCodeList.add(iterator.next());
-			}
-			return stateCodeList.size();
+			OpenCsvBuilder<CSVStateCensus> openCsvBuilder = new OpenCsvBuilder<>();
+			Iterator<CSVStateCensus> iterator = openCsvBuilder.getCsvBeanIterator(reader, CSVStateCensus.class);
+			return getNoOfEntries(iterator);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			return 0;
@@ -60,5 +44,14 @@ public class StateCensusAnalyser {
 			throw new CustomCensusAnalyserException("File data not correct", ExceptionType.IncorrectData);
 
 		}
+	}
+
+	private <E> int getNoOfEntries(Iterator<E> iterator) {
+		int noOfEntries = 0;
+		while (iterator.hasNext()) {
+			noOfEntries++;
+			iterator.next();
+		}
+		return noOfEntries;
 	}
 }
