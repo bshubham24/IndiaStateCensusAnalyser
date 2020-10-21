@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class StateCodeTest {
-	public static final String STATE_CODE_FILE = "F:\\Capgemini_training1\\java_eclipse\\IndiaStateCensusAnalyser\\IndiaStateCode.csv";
+	public static final String STATE_CODE_FILE = "F:\\Capgemini_training1\\java_eclipse\\IndiaStateCensusAnalyser\\src\\main\\java\\com\\capgi\\IndiaStateCode.csv";
 	public static final String WRONG_STATE_CODE_FILE = "F:\\Capgemini_training1\\java_eclipse\\IndiaStateCensusAnalyser"
 			+ "\\IndiaStateCensusData.cv";
 	public static final String WRONG_DATA_IN_STATE_CODE_FILE = "F:\\Capgemini_training1\\java_eclipse\\IndiaStateCensusAnalyser\\IndiaStateCodeDelimiter.csv";
