@@ -18,4 +18,13 @@ public class OpenCsvBuilder<E> {
 		}
 
 	}
+
+	public <E> int getNoOfEntries(Iterator<E> iterator) {
+		int noOfEntries = 0;
+		while (iterator.hasNext()) {
+			noOfEntries++;
+			iterator.next();
+		}
+		return noOfEntries;
+	}
 }
