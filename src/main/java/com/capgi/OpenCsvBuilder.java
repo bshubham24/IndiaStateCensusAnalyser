@@ -6,7 +6,7 @@ import java.util.Iterator;
 import com.capgi.CustomCensusAnalyserException.ExceptionType;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-public class OpenCsvBuilder<E> {
+public class OpenCsvBuilder<E> implements ICSVBuilder<E> {
 	public Iterator<E> getCsvBeanIterator(Reader reader, Class csvClass) throws CustomCensusAnalyserException {
 		try {
 			CsvToBeanBuilder<E> csvToBean = new CsvToBeanBuilder<E>(reader);
