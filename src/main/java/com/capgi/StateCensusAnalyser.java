@@ -23,6 +23,7 @@ public class StateCensusAnalyser {
 			return 0;
 		} catch (RuntimeException e) {
 			throw new CustomCensusAnalyserException("File data not correct", ExceptionType.IncorrectData);
+
 		}
 	}
 
@@ -41,6 +42,7 @@ public class StateCensusAnalyser {
 			throw new CustomCensusAnalyserException("File is empty", ExceptionType.NO_DATA);
 		} catch (RuntimeException e) {
 			throw new CustomCensusAnalyserException("File data not correct", ExceptionType.IncorrectData);
+
 		}
 	}
 
