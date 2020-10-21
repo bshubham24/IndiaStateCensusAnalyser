@@ -15,9 +15,9 @@ public class StateCensusAnalyser {
 			throw new CustomCensusAnalyserException("Incorrect csv file", ExceptionType.IncorrectCsvFile);
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
-			OpenCsvBuilder<CSVStateCensus> openCsvBuilder = new OpenCsvBuilder<>();
-			Iterator<CSVStateCensus> iterator = openCsvBuilder.getCsvBeanIterator(reader, CSVStateCensus.class);
-			int noOfEntries = openCsvBuilder.getNoOfEntries(iterator);
+			ICSVBuilder<CSVStateCensus> csvBuilder = CsvBuilderFactory.createCSVBuilder();
+			Iterator<CSVStateCensus> iterator = csvBuilder.getCsvBeanIterator(reader, CSVStateCensus.class);
+			int noOfEntries = csvBuilder.getNoOfEntries(iterator);
 			return noOfEntries;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -32,9 +32,9 @@ public class StateCensusAnalyser {
 			throw new CustomCensusAnalyserException("Incorrect csv file", ExceptionType.IncorrectCsvFile);
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
-			OpenCsvBuilder<CSVStateCensus> openCsvBuilder = new OpenCsvBuilder<>();
-			Iterator<CSVStateCensus> iterator = openCsvBuilder.getCsvBeanIterator(reader, CSVStateCensus.class);
-			int noOfEntries = openCsvBuilder.getNoOfEntries(iterator);
+			ICSVBuilder<CSVStates> csvBuilder = CsvBuilderFactory.createCSVBuilder();
+			Iterator<CSVStates> iterator = csvBuilder.getCsvBeanIterator(reader, CSVStates.class);
+			int noOfEntries = csvBuilder.getNoOfEntries(iterator);
 			return noOfEntries;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
