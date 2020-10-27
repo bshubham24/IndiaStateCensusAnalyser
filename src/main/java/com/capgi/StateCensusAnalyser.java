@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
+import java.util.List;
 
 import com.capgi.CustomCensusAnalyserException.ExceptionType;
 import com.capgi.csvbuilder.CsvBuilderFactory;
@@ -19,8 +19,8 @@ public class StateCensusAnalyser {
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
 			ICSVBuilder<CSVStateCensus> csvBuilder = CsvBuilderFactory.createCSVBuilder();
-			Iterator<CSVStateCensus> iterator = csvBuilder.getCsvBeanIterator(reader, CSVStateCensus.class);
-			int noOfEntries = csvBuilder.getNoOfEntries(iterator);
+			List<CSVStateCensus> list = csvBuilder.getCsvBeanList(reader, CSVStateCensus.class);
+			int noOfEntries = list.size();
 			return noOfEntries;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -38,8 +38,8 @@ public class StateCensusAnalyser {
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
 			ICSVBuilder<CSVStates> csvBuilder = CsvBuilderFactory.createCSVBuilder();
-			Iterator<CSVStates> iterator = csvBuilder.getCsvBeanIterator(reader, CSVStates.class);
-			int noOfEntries = csvBuilder.getNoOfEntries(iterator);
+			List<CSVStates> list = csvBuilder.getCsvBeanList(reader, CSVStates.class);
+			int noOfEntries = list.size();
 			return noOfEntries;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
