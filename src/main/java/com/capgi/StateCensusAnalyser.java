@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -88,6 +89,16 @@ public class StateCensusAnalyser {
 			throw new CustomCensusAnalyserException("No Code Data", ExceptionType.NO_DATA);
 		List<CSVStates> sortedList = stateCodeList.stream().sorted(Comparator.comparing(code -> code.stateCode))
 				.collect(Collectors.toList());
+		String sortedCodeDataJson = new Gson().toJson(sortedList);
+		return sortedCodeDataJson;
+	}
+
+	public String getPopulationWiseSortedCensusData() throws CustomCensusAnalyserException {
+		if (stateCensusList == null || stateCensusList.size() == 0)
+			throw new CustomCensusAnalyserException("No Code Data", ExceptionType.NO_DATA);
+		List<CSVStateCensus> sortedList = stateCensusList.stream().sorted(Comparator.comparing(code -> code.population))
+				.collect(Collectors.toList());
+		Collections.reverse(sortedList);
 		String sortedCodeDataJson = new Gson().toJson(sortedList);
 		return sortedCodeDataJson;
 	}
