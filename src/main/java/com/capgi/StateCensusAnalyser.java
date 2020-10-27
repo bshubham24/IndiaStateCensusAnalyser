@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.capgi.CustomCensusAnalyserException.ExceptionType;
 import com.capgi.csvbuilder.CsvBuilderFactory;
@@ -14,7 +15,8 @@ import com.capgi.csvbuilder.ICSVBuilder;
 import com.google.gson.Gson;
 
 public class StateCensusAnalyser {
-	List<CSVStateCensus> censusList = null;
+	List<CSVStateCensus> stateCensusList = null;
+	List<CSVStates> stateCodeList = null;
 
 	public int loadCsvData(String csvFile) throws CustomCensusAnalyserException, IOException, CsvException {
 		if (!csvFile.contains(".csv")) {
@@ -22,8 +24,8 @@ public class StateCensusAnalyser {
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
 			ICSVBuilder<CSVStateCensus> csvBuilder = CsvBuilderFactory.createCSVBuilder();
-			censusList = csvBuilder.getCsvBeanList(reader, CSVStateCensus.class);
-			int noOfEntries = censusList.size();
+			stateCensusList = csvBuilder.getCsvBeanList(reader, CSVStateCensus.class);
+			int noOfEntries = stateCensusList.size();
 			return noOfEntries;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -41,8 +43,8 @@ public class StateCensusAnalyser {
 		}
 		try (Reader reader = Files.newBufferedReader(Paths.get(csvFile));) {
 			ICSVBuilder<CSVStates> csvBuilder = CsvBuilderFactory.createCSVBuilder();
-			List<CSVStates> censusList = csvBuilder.getCsvBeanList(reader, CSVStates.class);
-			int noOfEntries = censusList.size();
+			stateCodeList = csvBuilder.getCsvBeanList(reader, CSVStates.class);
+			int noOfEntries = stateCodeList.size();
 			return noOfEntries;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -57,27 +59,36 @@ public class StateCensusAnalyser {
 	}
 
 	public String getStateWiseSortedCensusData() throws CustomCensusAnalyserException {
-		if (censusList == null || censusList.size() == 0) {
+		if (stateCensusList == null || stateCensusList.size() == 0) {
 			throw new CustomCensusAnalyserException("File is empty",
 					CustomCensusAnalyserException.ExceptionType.NO_DATA);
 		}
 		Comparator<CSVStateCensus> censusComparator = Comparator.comparing(census -> census.state);
 		this.sort(censusComparator);
-		String sortedStateCensus = new Gson().toJson(censusList);
+		String sortedStateCensus = new Gson().toJson(stateCensusList);
 		return sortedStateCensus;
 	}
 
 	private void sort(Comparator<CSVStateCensus> censusComparator) {
-		for (int i = 0; i < censusList.size() - 1; i++) {
-			for (int j = 0; j < censusList.size() - 1 - i; j++) {
-				CSVStateCensus census1 = censusList.get(j);
-				CSVStateCensus census2 = censusList.get(j + 1);
+		for (int i = 0; i < stateCensusList.size() - 1; i++) {
+			for (int j = 0; j < stateCensusList.size() - 1 - i; j++) {
+				CSVStateCensus census1 = stateCensusList.get(j);
+				CSVStateCensus census2 = stateCensusList.get(j + 1);
 				if (censusComparator.compare(census1, census2) > 0) {
-					censusList.set(j, census2);
-					censusList.set(j + 1, census1);
+					stateCensusList.set(j, census2);
+					stateCensusList.set(j + 1, census1);
 				}
 			}
 		}
 
+	}
+
+	public String getStateCodeWiseSortedCodeData() throws CustomCensusAnalyserException {
+		if (stateCodeList == null || stateCodeList.size() == 0)
+			throw new CustomCensusAnalyserException("No Code Data", ExceptionType.NO_DATA);
+		List<CSVStates> sortedList = stateCodeList.stream().sorted(Comparator.comparing(code -> code.stateCode))
+				.collect(Collectors.toList());
+		String sortedCodeDataJson = new Gson().toJson(sortedList);
+		return sortedCodeDataJson;
 	}
 }
