@@ -11,7 +11,7 @@ public class CSVStates {
 	@CsvBindByName(column = "TIN", required = true)
 	private int tin;
 	@CsvBindByName(column = "StateCode", required = true)
-	private String stateCode;
+	public String stateCode;
 
 	@Override
 	public String toString() {

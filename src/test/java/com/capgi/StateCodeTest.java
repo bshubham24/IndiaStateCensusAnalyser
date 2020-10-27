@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.capgi.csvbuilder.CsvException;
+import com.google.gson.Gson;
 
 public class StateCodeTest {
 	public static final String STATE_CODE_FILE = "F:\\Capgemini_training1\\java_eclipse\\IndiaStateCensusAnalyser\\src\\main\\java\\com\\capgi\\IndiaStateCode.csv";
@@ -64,5 +65,16 @@ public class StateCodeTest {
 			Assert.assertEquals(CustomCensusAnalyserException.ExceptionType.IncorrectCsvFile, e.type);
 		}
 
+	}
+
+	@Test
+	public void whenSortedByStateCodeShouldReturnSortedData()
+			throws CustomCensusAnalyserException, IOException, CsvException {
+		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+		stateCensusAnalyser.loadStateCode(STATE_CODE_FILE);
+		String sortedCensusData = stateCensusAnalyser.getStateCodeWiseSortedCodeData();
+		CSVStates[] censusCsv = new Gson().fromJson(sortedCensusData, CSVStates[].class);
+		Assert.assertEquals("AD", censusCsv[0].stateCode);
+		Assert.assertEquals("WB", censusCsv[36].stateCode);
 	}
 }
