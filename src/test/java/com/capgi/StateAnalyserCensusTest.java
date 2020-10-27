@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.capgi.csvbuilder.CsvException;
+import com.google.gson.Gson;
 
 public class StateAnalyserCensusTest {
 	public static final String STATE_CENSUS_DATA_FILE = "F:\\Capgemini_training1\\java_eclipse\\IndiaStateCensusAnalyser"
@@ -72,4 +73,14 @@ public class StateAnalyserCensusTest {
 
 	}
 
+	@Test
+	public void whenSortedShouldReturnStatesInAlphabeticalOrder()
+			throws IOException, CsvException, CustomCensusAnalyserException {
+		StateCensusAnalyser stateCensusAnalyser = new StateCensusAnalyser();
+		stateCensusAnalyser.loadCsvData(STATE_CENSUS_DATA_FILE);
+		String sortedCensusData = stateCensusAnalyser.getStateWiseSortedCensusData();
+		CSVStateCensus[] censusCsv = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
+		Assert.assertEquals("Andhra Pradesh", censusCsv[0].state);
+		Assert.assertEquals("West Bengal", censusCsv[28].state);
+	}
 }
