@@ -6,7 +6,7 @@ public class CSVStateCensus {
 	@CsvBindByName
 	public String state;
 	@CsvBindByName
-	private int population;
+	public int population;
 	@CsvBindByName
 	private int AreaInSqKm;
 	@CsvBindByName
