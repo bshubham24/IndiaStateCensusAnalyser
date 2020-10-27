@@ -10,7 +10,7 @@ public class CSVStateCensus {
 	@CsvBindByName
 	private int AreaInSqKm;
 	@CsvBindByName
-	private int DensityPerSqKm;
+	public int DensityPerSqKm;
 
 	@Override
 	public String toString() {

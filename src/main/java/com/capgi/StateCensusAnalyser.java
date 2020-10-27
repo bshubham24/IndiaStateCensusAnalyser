@@ -102,4 +102,15 @@ public class StateCensusAnalyser {
 		String sortedCodeDataJson = new Gson().toJson(sortedList);
 		return sortedCodeDataJson;
 	}
+
+	public String getPopulationDensityWiseSortedCensusData() throws CustomCensusAnalyserException {
+		if (stateCensusList == null || stateCensusList.size() == 0)
+			throw new CustomCensusAnalyserException("No Code Data", ExceptionType.NO_DATA);
+		List<CSVStateCensus> sortedList = stateCensusList.stream()
+				.sorted(Comparator.comparing(code -> code.DensityPerSqKm)).collect(Collectors.toList());
+		Collections.reverse(sortedList);
+		String sortedCodeDataJson = new Gson().toJson(sortedList);
+		System.out.println(sortedCodeDataJson);
+		return sortedCodeDataJson;
+	}
 }
