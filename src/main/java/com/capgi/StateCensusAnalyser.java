@@ -113,4 +113,14 @@ public class StateCensusAnalyser {
 		System.out.println(sortedCodeDataJson);
 		return sortedCodeDataJson;
 	}
+
+	public String getStateAreaWiseSortedCensusData() throws CustomCensusAnalyserException {
+		if (stateCensusList == null || stateCensusList.size() == 0)
+			throw new CustomCensusAnalyserException("No Code Data", ExceptionType.NO_DATA);
+		List<CSVStateCensus> sortedList = stateCensusList.stream().sorted(Comparator.comparing(code -> code.AreaInSqKm))
+				.collect(Collectors.toList());
+		Collections.reverse(sortedList);
+		String sortedCodeDataJson = new Gson().toJson(sortedList);
+		return sortedCodeDataJson;
+	}
 }

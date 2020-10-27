@@ -8,7 +8,7 @@ public class CSVStateCensus {
 	@CsvBindByName
 	public int population;
 	@CsvBindByName
-	private int AreaInSqKm;
+	public int AreaInSqKm;
 	@CsvBindByName
 	public int DensityPerSqKm;
 
